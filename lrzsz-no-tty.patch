@@ -1,0 +1,16 @@
+--- lrzsz-0.12.20-original/src/rbsb.c	2025-10-25 18:00:33.113735999 +0900
++++ lrzsz-0.12.20/src/rbsb.c	2025-10-25 18:00:58.677079385 +0900
+@@ -236,6 +236,13 @@
+ {
+ 	static int did0 = FALSE;
+ 
++	/* If fd is not a tty, skip terminal configuration */
++	/* This allows lrzsz to work with pipes and redirections */
++	if (!isatty(fd) && n != 0) {
++		/* For non-tty, just return OK without terminal setup */
++		return OK;
++	}
++
+ 	vfile("mode:%d", n);
+ 
+ 	switch(n) {
